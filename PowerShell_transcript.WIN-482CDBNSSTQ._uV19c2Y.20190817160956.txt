@@ -1,0 +1,18 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20190817160956
+Username: WIN-482CDBNSSTQ\Administrator
+RunAs User: WIN-482CDBNSSTQ\Administrator
+Machine: WIN-482CDBNSSTQ (Microsoft Windows NT 10.0.14393.0)
+Host Application: C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe
+Process ID: 1716
+PSVersion: 5.1.14393.693
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14393.693
+BuildVersion: 10.0.14393.693
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\Administrator\Documents\PowerShell_transcript.WIN-482CDBNSSTQ._uV19c2Y.20190817160956.txt
