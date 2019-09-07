@@ -1,0 +1,76 @@
+=============================To check services through invoke=======================
+
+
+#import computer csv file
+
+$computers=import-csv C:\computer.csv
+
+#import service csv file
+
+$services = import-csv C:\services.csv
+
+#connect to one computer
+
+foreach($comp in $computers)
+
+{
+    $username = $comp.username
+    $password = $comp.password | ConvertTo-SecureString -AsPlainText -Force
+
+    $credential = New-Object -TypeName System.Management.Automation.PSCredential $username,$password
+
+    
+    
+        test-connection -ComputerName $comp.computername -ErrorVariable EV -ErrorAction SilentlyContinue -Count 1 |out-null
+
+        If($EV -ne $null)
+        {
+            "not able to reach to $($comp.computername)" | out-file C:\error.log -Append
+        
+        }
+        else
+        {
+            $pssessionoption = New-PSSessionOption -SkipCACheck -SkipCNCheck -SkipRevocationCheck
+
+             #Invoke-Command -ComputerName $comp
+
+             $compcompliancestatus=Invoke-Command -ComputerName $comp.computername -Credential $credential -Port 5986 -UseSSL -SessionOption $pssessionoption -ScriptBlock {
+        
+               $serviceoutput= $using:services | select @{l="name";e={$_.servicename}} |  Get-Service | ?{$_.status -eq "Running"} | Measure-Object
+
+               if( $serviceoutput.count -gt 0)
+               {
+                    $compliancestatus ="Noncompliance"
+               
+               }
+               else
+               {
+                       $compliancestatus ="compliance"
+               
+               }
+        
+                # check the status of service
+
+
+                #if any of the services status is running , then noncompliance 
+             
+                $compliancestatus
+             
+             
+             
+             }
+
+           
+           $compstatus = [pscustomobject]@{name=$comp.computername;compliancestatus=$compcompliancestatus }
+           
+           $compstatus  | Export-Csv C:\computercompliancestatus.csv -Append
+        
+        
+        }
+
+  
+
+}
+# give output to csv file
+
+Get-Help Test-Connection -Online
